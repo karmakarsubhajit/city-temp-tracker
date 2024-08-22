@@ -55,6 +55,10 @@ This command will start the Elasticsearch container. Ensure Elasticsearch is run
 ```bash
 ./gradlew bootRun
 ```
-The application will start, and you can access it at http://localhost:8089.
+The application will start, and you can access it at http://localhost:8089. The scheduler will download temperature and related data of 100 cities and index it using elasticsearch.
+
+### 6. API Endpoints
+
+
 
 
