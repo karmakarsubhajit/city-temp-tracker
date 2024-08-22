@@ -70,18 +70,85 @@ A Get API is exposed which takes a list of cities as input and queries the city 
 **Request Body:**
 ```json
 {
-  "data": ["Bangalore","Delhi","Kolkata","Berlin","New York City","London"]
+  "data": ["Bangalore","Kolkata"]
 }
 ```
 
 **Response:**
 ```json
 {
-  "data": [
-    {
-      
-    }
-  ]
+    "data": [
+        {
+            "recordId": "4d1c2a0b-2a75-444f-91a9-24be9e40c2c9",
+            "city": "Bangalore",
+            "temperatureInF": 79.0,
+            "temperatureInC": 26.1,
+            "extraInfo": {
+                "location": {
+                    "name": "Bangalore",
+                    "region": "Karnataka",
+                    "country": "India",
+                    "lat": 12.98,
+                    "lon": 77.58,
+                    "localtime": "2024-08-22 21:51"
+                },
+                "current": {
+                    "last_updated_epoch": 1724343300,
+                    "last_updated": "2024-08-22 21:45",
+                    "temp_c": 26.1,
+                    "temp_f": 79.0,
+                    "is_day": 0,
+                    "condition": {
+                        "text": "Partly cloudy",
+                        "icon": "//cdn.weatherapi.com/weather/64x64/night/116.png",
+                        "code": 1003
+                    },
+                    "wind_kph": 15.1,
+                    "wind_degree": 230,
+                    "wind_dir": "SW",
+                    "pressure_mb": 1016.0,
+                    "pressure_in": 30.0,
+                    "precip_mm": 0.0,
+                    "precip_in": 0.0,
+                }
+            },
+            "dataSyncTimestamp": "2024-08-22 21:53:36.485"
+        },
+        {
+            "recordId": "e52277fc-6c0f-43cc-9b1d-e1cde1173d81",
+            "city": "Kolkata",
+            "temperatureInF": 81.0,
+            "temperatureInC": 27.2,
+            "extraInfo": {
+                "location": {
+                    "name": "Kolkata",
+                    "region": "West Bengal",
+                    "country": "India",
+                    "lat": 22.57,
+                    "lon": 88.37,
+                    "localtime": "2024-08-22 21:51"
+                },
+                "current": {
+                    "last_updated_epoch": 1724343300,
+                    "last_updated": "2024-08-22 21:45",
+                    "temp_c": 27.2,
+                    "temp_f": 81.0,
+                    "is_day": 0,
+                    "condition": {
+                        "text": "Moderate or heavy rain with thunder",
+                        "icon": "//cdn.weatherapi.com/weather/64x64/night/389.png",
+                        "code": 1276
+                    },
+                    "wind_kph": 3.6,
+                    "wind_degree": 10,
+                    "wind_dir": "N",
+                    "pressure_mb": 1005.0,
+                    "pressure_in": 29.68,
+                }
+            },
+            "dataSyncTimestamp": "2024-08-22 21:53:29.925"
+        }
+    ]
 }
 ```
 
