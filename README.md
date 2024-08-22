@@ -1,6 +1,6 @@
 # CityTempTracker
 
-City Temperature Tracker is project which downloads temperature data of many cities periodically from weatherapi. This data is stored in Elastic Search and an API is exposed to let user fetch temperature and other related details of multiple cities.
+City Temperature Tracker is project which downloads temperature data of many cities periodically from weatherapi. This data is stored in Elastic Search and an API is exposed to let user fetch temperature and other related details of multiple cities. It is built using Java , Spring Boot, ElasticSearch.
 
 ## Features
 
@@ -32,3 +32,14 @@ cd CityTempTracker
 ```bash
 temp.service.api.key=your_generated_api_key
 ```
+
+### Build the Project
+
+Use Gradle to build the project:
+```bash
+./gradlew clean build
+```
+
+### Docker Setup
+
+
