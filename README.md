@@ -29,6 +29,6 @@ cd CityTempTracker
 
 1. Obtain an API key from [weatherapi](https://www.weatherapi.com).
 2. In application.properties file in the src/main/resources directory, update the field temp.service.api.key with the key generated above
-3. ```bash
+```bash
 temp.service.api.key=your_generated_api_key
 ```
