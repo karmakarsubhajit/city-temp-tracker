@@ -4,6 +4,10 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+
+import java.time.Instant;
 
 @Data
 @Setter
@@ -17,6 +21,7 @@ public class TemperatureData{
     private String id;
     private String city;
     private String extraInfo;
-    private String time;
 
+    @Field(type = FieldType.Date)
+    private Instant time;
 }

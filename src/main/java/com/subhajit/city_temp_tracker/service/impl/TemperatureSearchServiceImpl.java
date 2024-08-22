@@ -9,6 +9,7 @@ import com.subhajit.city_temp_tracker.model.ClientResponse;
 import com.subhajit.city_temp_tracker.model.TemperatureData;
 import com.subhajit.city_temp_tracker.repository.TemperatureRepository;
 import com.subhajit.city_temp_tracker.service.interfaces.TemperatureSearchService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,11 +17,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Component
 public class TemperatureSearchServiceImpl implements TemperatureSearchService {
 
@@ -32,12 +38,13 @@ public class TemperatureSearchServiceImpl implements TemperatureSearchService {
     {
         ClientResponse clientResponse =  new ClientResponse();
         List<Map<String,Object>> data = new ArrayList<>();
-        System.out.println("searchTemperatureData method starts");
+        log.debug("searchTemperatureData method starts");
         if(clientRequest.getData() != null ){
             for(String city :  clientRequest.getData())
             {
-                System.out.println("Printing city: "+city);
-                List<TemperatureData> responseList = temperatureRepository.findByCity(city);
+                log.debug("Printing city: {}",city);
+                Sort sort = Sort.by(Sort.Direction.DESC, "time");
+                List<TemperatureData> responseList = temperatureRepository.findByCity(city,sort);
                 TemperatureData response = null;
                 if(responseList.size()>0)
                     response = responseList.get(0);
@@ -49,8 +56,7 @@ public class TemperatureSearchServiceImpl implements TemperatureSearchService {
                     ));
                     continue;
                 }
-                System.out.println("Debug2");
-                System.out.println("response: "+response);
+                log.debug("ES query response: {}",response);
                 Map<String,Object> cityRespObj = new HashMap<>();
                 cityRespObj.put("city",city);
                 JsonNode extraInfoJson = null;
@@ -58,13 +64,18 @@ public class TemperatureSearchServiceImpl implements TemperatureSearchService {
                     ObjectMapper objectMapper = new ObjectMapper();
                     extraInfoJson = objectMapper.readTree(response.getExtraInfo());
                 } catch (JsonProcessingException e) {
-                    e.printStackTrace();
+                    extraInfoJson = null;
                 }
                 cityRespObj.put("temperatureInC",extraInfoJson.get("current").get("temp_c"));
                 cityRespObj.put("temperatureInF",extraInfoJson.get("current").get("temp_f"));
                 cityRespObj.put("extraInfo",extraInfoJson);
                 cityRespObj.put("recordId",response.getId());
-                cityRespObj.put("dataSyncTimestamp",response.getTime());
+                Instant dataSyncTimestamp = response.getTime();
+                ZonedDateTime istDateTime = dataSyncTimestamp.atZone(ZoneId.of("Asia/Kolkata"));
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+                String formattedDataSyncTimestamp = istDateTime.format(formatter);
+
+                cityRespObj.put("dataSyncTimestamp", formattedDataSyncTimestamp);
                 data.add(cityRespObj);
             }
         }

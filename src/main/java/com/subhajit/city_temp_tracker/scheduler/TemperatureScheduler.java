@@ -3,6 +3,7 @@ package com.subhajit.city_temp_tracker.scheduler;
 import com.subhajit.city_temp_tracker.model.TemperatureData;
 import com.subhajit.city_temp_tracker.repository.TemperatureRepository;
 import com.subhajit.city_temp_tracker.service.interfaces.TemperatureDownloadService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
+@Slf4j
 @Component
 public class TemperatureScheduler{
 
@@ -22,14 +24,14 @@ public class TemperatureScheduler{
     @Autowired
     private TemperatureRepository temperatureRepository;
 
-    @Scheduled(fixedRate = 3600000)
+    @Scheduled(fixedRate = 86400000)
     public void scheduleCityTempFetch()
     {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
 
         ZonedDateTime startTimeInIst = ZonedDateTime.now(ZoneId.of("Asia/Kolkata"));
         String formattedStartTime = startTimeInIst.format(formatter);
-        System.out.println("Scheduler trigger starts: "+formattedStartTime);
+        log.debug("Scheduler trigger starts: {}", formattedStartTime);
         String[] cities = {
                 "New York City", "Kolkata", "Berlin", "Mumbai", "Darjeeling", "New Delhi", "London", "Frankfurt",
                 "Amsterdam", "Paris", "Warsaw", "Tokyo", "Melbourne", "Beijing", "Bangalore",
@@ -49,21 +51,21 @@ public class TemperatureScheduler{
         for(String city : cities )
         {
             String response = temperatureDownloadService.downloadTemperatureData(city);
-            ZonedDateTime currentTimeInIst = ZonedDateTime.now(ZoneId.of("Asia/Kolkata"));
-            String formattedCurrentTime = currentTimeInIst.format(formatter);
+            Instant currentInstant = Instant.now();
+            ZonedDateTime istDateTime = currentInstant.atZone(ZoneId.of("Asia/Kolkata"));
+
             TemperatureData temperatureData = new TemperatureData()
                     .setCity(city)
                     .setId(UUID.randomUUID().toString())
-                    .setTime(formattedCurrentTime.toString())
+                    .setTime(istDateTime.toInstant())
                     .setExtraInfo(response);
 
             temperatureRepository.save(temperatureData);
-            System.out.println(city+" : "+response);
-        }
+            log.debug("city: {} , External API: response{}", city, response);        }
         ZonedDateTime endTimeInIst = ZonedDateTime.now(ZoneId.of("Asia/Kolkata"));
         String formattedEndTime = endTimeInIst.format(formatter);
 
-        System.out.println("Scheduler trigger ends: "+formattedEndTime);
+        log.debug("Scheduler trigger ends: {}",formattedEndTime);
     }
 
 }
