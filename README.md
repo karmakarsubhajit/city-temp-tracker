@@ -58,7 +58,32 @@ This command will start the Elasticsearch container. Ensure Elasticsearch is run
 The application will start, and you can access it at http://localhost:8089. The scheduler will download temperature and related data of 100 cities and index it using elasticsearch.
 
 ### 6. API Endpoints
+A Get API is exposed which takes a list of cities as input and queries the city temperature and related data from Elastic Search and returns the response.
 
+**Endpoint:** `http://localhost:8089/api/v1/internal/city/temperature`
+
+**Method:** `GET`
+
+**Headers:**
+- `Content-Type: application/json`
+
+**Request Body:**
+```json
+{
+  "data": ["Bangalore","Delhi","Kolkata","Berlin","New York City","London"]
+}
+```
+
+**Response:**
+```json
+{
+  "data": [
+    {
+      
+    }
+  ]
+}
+```
 
 
 
