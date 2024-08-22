@@ -43,7 +43,10 @@ public class TemperatureSearchServiceImpl implements TemperatureSearchService {
                     response = responseList.get(0);
                 else
                 {
-                    data.add(Map.of("city", city));
+                    data.add(Map.of(
+                            "city", city,
+                            "error", "Sorry! This city not available!"
+                    ));
                     continue;
                 }
                 System.out.println("Debug2");
@@ -55,7 +58,7 @@ public class TemperatureSearchServiceImpl implements TemperatureSearchService {
                     ObjectMapper objectMapper = new ObjectMapper();
                     extraInfoJson = objectMapper.readTree(response.getExtraInfo());
                 } catch (JsonProcessingException e) {
-                    e.printStackTrace(); // Handle the exception as needed
+                    e.printStackTrace();
                 }
                 cityRespObj.put("temperatureInC",extraInfoJson.get("current").get("temp_c"));
                 cityRespObj.put("temperatureInF",extraInfoJson.get("current").get("temp_f"));

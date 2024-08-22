@@ -30,7 +30,22 @@ public class TemperatureScheduler{
         ZonedDateTime startTimeInIst = ZonedDateTime.now(ZoneId.of("Asia/Kolkata"));
         String formattedStartTime = startTimeInIst.format(formatter);
         System.out.println("Scheduler trigger starts: "+formattedStartTime);
-        String[] cities = {"New York","Kolkata","Berlin"};
+        String[] cities = {
+                "New York City", "Kolkata", "Berlin", "Mumbai", "Darjeeling", "New Delhi", "London", "Frankfurt",
+                "Amsterdam", "Paris", "Warsaw", "Tokyo", "Melbourne", "Beijing", "Bangalore",
+                "Los Angeles", "Chicago", "Shanghai", "Hong Kong", "Dubai", "Rome", "Istanbul", "Toronto",
+                "Moscow", "Barcelona", "Sydney", "Seoul", "Singapore", "Cairo", "Mexico City", "Bangkok",
+                "Rio de Janeiro", "Buenos Aires", "Jakarta", "Lagos", "São Paulo", "Cape Town", "Tehran",
+                "Kuala Lumpur", "Riyadh", "Lima", "Vienna", "Athens", "Brussels", "Stockholm", "Zurich",
+                "Madrid", "Lisbon", "Helsinki", "Oslo", "Copenhagen", "Dublin", "Edinburgh", "Glasgow",
+                "Manchester", "Vancouver", "Montreal", "Calgary", "Brisbane", "Auckland", "Wellington",
+                "Christchurch", "Perth", "Adelaide", "Hanoi", "Ho Chi Minh City", "Phnom Penh",
+                "Bangui", "Islamabad", "Kathmandu", "Colombo", "Male", "Port Louis", "Abu Dhabi",
+                "Doha", "Manama", "Muscat", "Amman", "Jerusalem", "Tel Aviv", "Casablanca", "Algiers",
+                "Pune", "Nairobi", "Addis Ababa", "Accra", "Chennai", "Pretoria", "Lucknow", "Harare",
+                "Santiago", "Caracas", "Bogotá", "Quito", "La Paz", "Asunción", "Montevideo",
+                "San José", "Havana", "San Juan", "Kingston", "Panama City", "Managua"
+        };
         for(String city : cities )
         {
             String response = temperatureDownloadService.downloadTemperatureData(city);
