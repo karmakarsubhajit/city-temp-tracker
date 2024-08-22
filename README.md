@@ -11,21 +11,21 @@ City Temperature Tracker is project which downloads temperature data of many cit
 
 ## How to get it up and running?
 
-### Languages and technologies required on local
+### 1. Languages and technologies required on local
 
 1. **Java 17 or later**: The application is built using Java 17.
 2. **Rancher Desktop / Colima**: For managing your local Kubernetes cluster.
 3. **Docker**: Required for running Elasticsearch and the application within containers.
 
 
-### Clone the Repository
+### 2. Clone the Repository
 
 ```bash
 git clone https://github.com/karmakarsubhajit/CityTempTracker.git
 cd CityTempTracker
 ```
 
-### Configure API Keys
+### 3. Configure API Keys
 
 1. Obtain an API key from [weatherapi](https://www.weatherapi.com).
 2. In application.properties file in the src/main/resources directory, update the field temp.service.api.key with the key generated above
@@ -33,13 +33,28 @@ cd CityTempTracker
 temp.service.api.key=your_generated_api_key
 ```
 
-### Build the Project
+### 4. Build the Project
 
 Use Gradle to build the project:
 ```bash
 ./gradlew clean build
 ```
 
-### Docker Setup
+### 5. Starting the application
+
+#### a. Start Elasticsearch
+
+The application uses Elasticsearch for storing city temperature data. To set up Elasticsearch, use Docker Compose:
+
+```bash
+docker-compose up -d
+```
+This command will start the Elasticsearch container. Ensure Elasticsearch is running before starting the application.
+
+#### b. Build and run the application
+```bash
+./gradlew bootRun
+```
+The application will start, and you can access it at http://localhost:8089.
 
 
